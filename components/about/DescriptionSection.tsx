@@ -3,8 +3,8 @@ import Image from 'next/image'
 
 export default function DescriptionSection() {
   return (
-    <div className="flex p-4 md:p-10 justify-center">
-      <div className="bg-[#F4F7FF] flex flex-wrap gap-8 p-6 md:p-10 rounded-[20px] w-full max-w-[80%]">
+
+      <div className="bg-[#F4F7FF] flex flex-wrap gap-8 p-6 md:p-10 rounded-[20px] w-full ">
         
         {/* Text Section */}
         <div className="flex-1 min-w-[280px] max-w-[800px] flex items-center">
@@ -27,6 +27,6 @@ export default function DescriptionSection() {
         </div>
         
       </div>
-    </div>
+   
   );
 }

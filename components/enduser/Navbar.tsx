@@ -3,6 +3,8 @@ import { IoIosArrowDown } from 'react-icons/io'
 import { ImLocation } from 'react-icons/im'
 import { MdMyLocation } from 'react-icons/md'
 import { RxHamburgerMenu } from 'react-icons/rx'
+import { GoSearch } from "react-icons/go";
+
 
 export default function Navbar() {
   return (
@@ -22,18 +24,18 @@ export default function Navbar() {
 
       {/* Location input — hide on small screens */}
       <div className="hidden lg:flex flex-1 gap-2 items-center max-w-[328px] bg-[#cfd4e3] h-[50px] p-4 px-5 rounded-full shadow-[0_4px_10px_0_rgba(0,0,0,0.05)]">
-        <ImLocation />
+        <ImLocation className="text-blue-500" />
         <input
           type="text"
           placeholder="Location"
           className="w-full focus:outline-none bg-transparent text-black/80"
         />
-        <MdMyLocation />
+        <MdMyLocation className="text-blue-500" />
       </div>
 
       {/* Search bar — hide on small screens */}
       <div className="hidden md:flex flex-1 gap-2 items-center max-w-[328px] bg-white h-[50px] p-4 px-5 rounded-full shadow-[0_4px_10px_0_rgba(0,0,0,0.05)]">
-        <ImLocation />
+        <GoSearch />
         <input
           type="text"
           placeholder="Search for services"

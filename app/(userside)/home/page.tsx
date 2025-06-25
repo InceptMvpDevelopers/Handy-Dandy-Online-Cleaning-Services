@@ -8,7 +8,7 @@ import HowItWorks from '@/components/enduser/HowItWorks'
 import WhyChooseUs from '@/components/enduser/WhyChooseUs'
 import ClientSuccessStories from '@/components/enduser/ClientSuccessStories'
 import FAQs from '@/components/enduser/FAQs'
-import Footer from '@/components/enduser/oLDFooter'
+import Footer from '@/components/enduser/Footer'
 
 
 export default function User() {

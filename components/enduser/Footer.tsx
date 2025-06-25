@@ -1,13 +1,30 @@
 import React from 'react';
 import { FaPhoneAlt, FaMapMarkerAlt, FaFacebookF, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
-import { FiArrowUpRight } from 'react-icons/fi';
+import { FiArrowUpRight, FiPhone } from 'react-icons/fi';
 import { BsClock } from 'react-icons/bs';
 import { FaVk, FaTelegramPlane } from 'react-icons/fa';
 
-const Footer = () => {
+type parameters = {
+showBook?: boolean;
+}
+
+const Footer = ({showBook} : parameters) => {
   return (
-    <footer className="bg-[#0057d8] text-white pt-10 pb-4 px-4 sm:px-6 md:px-10 lg:px-20">
+    <footer className="bg-[#0057d8] flex flex-col gap-8 text-white pt-10 pb-4 px-4 sm:px-6 md:px-10 lg:px-20">
+
+
+        {/* For About Only */}
+        {showBook &&
+        <><div className="flex flex-col justify-center text-center gap-x-2 text-white text-[32px] sm:text-[40px] md:text-[48px] lg:text-[52px]">
+          <span className="font-[600]">BOOK YOUR</span>
+          <span className="font-[400] italic">SERVICE TODAY</span>
+        </div><button className="bg-[#155CFF] text-white px-8 py-4 mb-8 rounded-full flex items-center self-center justify-center gap-2 text-lg font-medium w-full max-w-[400px]">
+            <FiPhone className="w-5 h-5" />
+            Book Now
+          </button></>}
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row lg:justify-between gap-10 lg:gap-0">
+
+
         {/* Newsletter */}
         <div className="flex-1 min-w-[220px] max-w-full">
           <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-2">Subscribe To Our Newsletter</h2>
