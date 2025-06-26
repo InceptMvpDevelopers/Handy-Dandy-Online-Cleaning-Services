@@ -15,7 +15,7 @@ export default function WhyChooseUs2ndCard({
   description2, // ✅ fixed
 }: Parameters) {
   return (
-    <div className="bg-blue-600 rounded-2xl shadow-[0px_4px_40px_0px_rgba(0,0,0,0.5)] p-4 w-full flex-1  min-w-[280px] flex flex-col justify-between">
+    <div className="bg-blue-600 rounded-2xl shadow-[0px_4px_40px_0px_rgba(0,0,0,0.1)] p-4 w-full flex-1  min-w-[280px] flex flex-col justify-between">
       <div className="flex flex-col gap-2">
    <div className="relative w-[62px] h-[62px] overflow-hidden mb-4 border border-blue-700 rounded-full bg-white">
   <Image

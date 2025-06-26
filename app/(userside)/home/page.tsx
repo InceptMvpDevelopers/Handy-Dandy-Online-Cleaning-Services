@@ -39,7 +39,7 @@ export default function User() {
         <DownloadsSection />
       
       </div>
-      <div className='p-14'>
+      <div className='p-2 md:p-4 lg:p-8'>
        <AfterHero />
        <div className='flex max-w-[1400px]  mx-auto  self-center  justify-center'>
 <BookOurService />

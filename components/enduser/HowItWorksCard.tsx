@@ -13,7 +13,7 @@ export default function HowItWorksCard({
   description,
 }: Parameters) {
   return (
-    <div className="bg-white rounded-2xl shadow-[0px_4px_40px_0px_rgba(0,0,0,0.5)] p-4 w-full flex-1 max-w-[500px]  min-w-[280px] flex flex-col justify-between">
+    <div className="bg-white rounded-2xl shadow-[0px_4px_40px_0px_rgba(0,0,0,0.1)] p-4 w-full flex-1 max-w-[500px]  min-w-[280px] flex flex-col justify-between">
       <div className="flex flex-col gap-2">
         <div className="relative w-full h-[206px] rounded-xl overflow-hidden mb-4">
           <Image

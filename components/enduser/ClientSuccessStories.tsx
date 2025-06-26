@@ -38,7 +38,7 @@ const ClientSuccessStories = () => {
       
       </div>
         {/* Review Section */}
-          <div className=" flex-[1] flex min-w-[280px] bg-[#E6E8E8] gap-8 shadow-[0px_4px_40px_0px_rgba(0,0,0,0.5)]
+          <div className=" flex-[1] flex min-w-[280px] bg-[#E6E8E8] gap-8 shadow-[0px_4px_40px_0px_rgba(0,0,0,0.1)]
   p-8 rounded-lg">
  <div className="w-[142px] h-[142px] rounded-full overflow-hidden shrink-0 relative">
   <Image 
