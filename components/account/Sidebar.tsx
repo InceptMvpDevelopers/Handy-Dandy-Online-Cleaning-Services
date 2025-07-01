@@ -1,7 +1,11 @@
 import React from "react";
 import { FaUser, FaLock, FaShieldAlt, FaBars } from "react-icons/fa";
+import { useAuth } from "@/context/Authcontext";
+import { useRouter } from "next/navigation";
+import { LogOut } from "lucide-react";
 
 export function SidebarHamburgerButton({ onClick }: { onClick: () => void }) {
+ 
   return (
     <button className="lg:hidden p-2 text-2xl text-gray-700" onClick={onClick}>
       <FaBars />
@@ -9,17 +13,35 @@ export function SidebarHamburgerButton({ onClick }: { onClick: () => void }) {
   );
 }
 
+
+
+
 export default function Sidebar({ active, open, onClose }: {
   active: 'personal' | 'security' | 'privacy',
   open?: boolean,
   onClose?: () => void
 }) {
+
+
+const { logout } = useAuth();
+  const router = useRouter();
+
+  const logoutAndNavigate = async () => {
+    await logout();
+    router.push("/home"); // redirect to home or login
+  };
   // Sidebar content
   const content = (
     <nav className="flex flex-col gap-4">
       <a href="/personal-information" className={`flex items-center gap-3 font-semibold text-base py-2 px-4 rounded-lg ${active === 'personal' ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:bg-gray-50'}`}> <FaUser className={active === 'personal' ? 'text-blue-600' : 'text-gray-400'} /> Personal Information </a>
       <a href="/security" className={`flex items-center gap-3 font-semibold text-base py-2 px-4 rounded-lg ${active === 'security' ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:bg-gray-50'}`}> <FaLock className={active === 'security' ? 'text-blue-600' : 'text-gray-400'} /> Security </a>
       <a href="/privacy-policy" className={`flex items-center gap-3 font-semibold text-base py-2 px-4 rounded-lg ${active === 'privacy' ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:bg-gray-50'}`}> <FaShieldAlt className={active === 'privacy' ? 'text-blue-600' : 'text-gray-400'} /> Privacy Policy </a>
+   <button
+      onClick={logoutAndNavigate}
+      className=" flex items-center gap-3 font-semibold text-base py-2 px-4 rounded-lg text-red-600 hover:bg-red-50"
+    >
+      <FaLock className="text-red-500" /> Logout
+    </button>
     </nav>
   );
 

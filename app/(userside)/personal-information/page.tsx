@@ -6,6 +6,7 @@ import NameModal from "@/components/account/NameModal";
 import PhoneModal from '../../../components/account/PhoneModal';
 import EmailModal from '../../../components/account/EmailModal';
 import Image from "next/image";
+import { User, LogOut } from "lucide-react";
 
 export default function PersonalInformation() {
   const [profile, setProfile] = useState({

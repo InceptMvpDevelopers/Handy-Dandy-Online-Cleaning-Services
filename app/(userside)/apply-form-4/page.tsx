@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import Footer from '@/components/enduser/Footer';
 import Navbar from '@/components/enduser/Navbar';
 import BookingDetailsCard from "@/components/apply-form-all/Right-side";
+import { useAuth } from "@/contexts/AuthContext";
+import { updateAddress } from "@/supabase-apis/api";
+import { toast } from "react-hot-toast";
 
 export default function ApplyForm4() {
   const [selectedDate] = useState("Thursday 31/05/23");
@@ -14,6 +17,7 @@ export default function ApplyForm4() {
     country: "United States",
     zip: ""
   });
+  const { user } = useAuth();
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -75,7 +79,20 @@ export default function ApplyForm4() {
         <div className="w-full  flex flex-col sm:flex-row justify-between items-center mt-10 gap-4">
           <button className="bg-gray-200 text-gray-500 font-medium rounded-full px-8 py-3 w-32">Cancel</button>
           <button className="text-blue-700 underline font-medium px-4 py-2">Back</button>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full px-8 py-3 w-full sm:w-[250px] transition-colors">Confirm and submit</button>
+          <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full px-8 py-3 w-full sm:w-[250px] transition-colors" onClick={async () => {
+            if (!user) {
+              toast.error('User not found. Please sign in again.');
+              return;
+            }
+            const addressObj = { address: form.address, pin: form.pin };
+            try {
+              await updateAddress({ address: addressObj, userID: user.id });
+              toast.success('Address updated successfully!');
+              onClose();
+            } catch (error) {
+              toast.error('Failed to update address: ' + error.message);
+            }
+          }}>Confirm and submit</button>
         </div>
       </div>
             <div className='flex flex-col  flex-1'>

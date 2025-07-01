@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import Navbar from '@/components/enduser/Navbar'
 import Image from 'next/image'
@@ -11,7 +12,10 @@ import FAQs from '@/components/enduser/FAQs'
 import Footer from '@/components/enduser/Footer'
 
 
+
+
 export default function User() {
+
   return (
     <div>
       <div className="flex flex-col bg-[url('/end-user/website-banner.svg')] bg-no-repeat bg-cover bg-center rounded-sm ">
@@ -24,6 +28,8 @@ export default function User() {
             <p className="text-[62px] font-[400] italic">Services,</p>
             <p className="text-[62px] font-[600]">Exceptional</p>
             <p className="text-[62px] font-[600]">Experiences</p>
+       
+            
           </div>
           {/* Right Image */}
           <div className="relative w-[300px] md:w-[593px] h-[300px] md:h-[593px]  md:mb-[-180px]">
@@ -51,6 +57,8 @@ export default function User() {
 
        </div>
          <Footer />
+
+        
     </div>
   )
 }
