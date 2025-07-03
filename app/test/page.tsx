@@ -8,6 +8,7 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/Authcontext";
+import Link from "next/link";
 
 const schema = z.object({
   firstName: z.string().min(2, "First name is required"),
@@ -87,6 +88,7 @@ export default function TestFormPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-100">
+         <Link href={"/test2"}>Go to Test 2</Link>
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-semibold mb-6 text-center">Auth Demo</h2>
         {userDetails ? (

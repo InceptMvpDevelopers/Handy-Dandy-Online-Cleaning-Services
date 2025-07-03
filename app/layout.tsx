@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
 import './globals.css'
 import { AuthProvider } from "@/context/Authcontext";
+import ClientReduxProvider from "@/components/ClientReduxProvider";
+
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -28,9 +30,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable} font-sans`} suppressHydrationWarning>
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+        <ClientReduxProvider>
+          <AuthProvider>
+  
+            {children}
+          </AuthProvider>
+        </ClientReduxProvider>
       </body>
     </html>
   )

@@ -1,7 +1,24 @@
-import React from "react";
-import ServiceCard from "./Servicecard";
+import React, { useEffect } from "react";
+import SubCategoryCard from "./Subcategorycard";
+import {  useDispatch, useSelector } from "react-redux";
+import { fetchSubcategories } from "@/store/subcategories";
+import { RootState } from "@/store";
+import { Key } from "lucide-react";
+
 
 export default function AfterHero() {
+  const dispatch = useDispatch();
+  const {subcategories} = useSelector((state:RootState)=>state.subcategories);
+
+
+  useEffect(() => {
+    if(subcategories.length == 0){
+  dispatch<any>(fetchSubcategories());
+}
+}, [dispatch, subcategories])
+
+
+
   return (
     <div className="flex flex-col gap-12 px-4 sm:px-8 py-8">
       {/* Header */}
@@ -19,41 +36,23 @@ export default function AfterHero() {
 
       {/* General Cleaning Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-        <ServiceCard
-          title="Space"
-          title2="Cleaning"
-          main_image="/end-user/1stcard.jpg"
+       
+       {subcategories.filter((sc)=>sc.main_category=="general").map((sc)=>{
+        return (
+          <React.Fragment key={sc.id}>
+ <SubCategoryCard
+ id={sc.id}
+          title={sc.title}
+          title2={sc.title2}
+          main_image={sc.image_url}
           icon_image="/end-user/vacuum.png"
-          description="Transform your home into a haven of cleanliness with our meticulous home cleaning services"
+          description={sc.description}
+          category={sc.main_category  as "general" | "technical" | "interior" }
         />
-        <ServiceCard
-          title="Deep"
-          title2="Cleaning"
-          main_image="/end-user/2ndcard.jpg"
-          icon_image="/end-user/vacuum.png"
-          description="Deep Cleaning, Designed for You—Effortless, Thorough, and Hassle-Free."
-        />
-        <ServiceCard
-          title="Furniture"
-          title2="Cleaning"
-          main_image="/end-user/3rdcard.jpg"
-          icon_image="/end-user/vacuum.png"
-          description="Transform your home into a haven of cleanliness with our meticulous home cleaning services"
-        />
-        <ServiceCard
-          title="Water Tank"
-          title2="Cleaning"
-          main_image="/end-user/4thcard.jpg"
-          icon_image="/end-user/vacuum.png"
-          description="Thorough and professional cleaning to remove contaminants and ensure safe, hygienic water storage"
-        />
-        <ServiceCard
-          title="AC"
-          title2="Cleaning"
-          main_image="/end-user/5thcard.jpg"
-          icon_image="/end-user/vacuum.png"
-          description="Comprehensive cleaning to improve air quality and ensure your AC system runs efficiently"
-        />
+            </React.Fragment>
+          
+        )
+       })}
       </div>
 
       {/* Technical Services Heading */}
@@ -64,48 +63,26 @@ export default function AfterHero() {
 
       {/* Technical Services Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-        <ServiceCard
-          title="Space"
-          title2="Cleaning"
-          main_image="/end-user/10thCard.jpg"
+        
+          {subcategories.filter((sc)=>sc.main_category=="technical").map((sc)=>{
+        return (
+          <React.Fragment key={sc.id}>
+ <SubCategoryCard
+ id={sc.id}
+          title={sc.title}
+          title2={sc.title2}
+          main_image={sc.image_url}
           icon_image="/end-user/vacuum.png"
-          description="Transform your home into a haven of cleanliness with our meticulous home cleaning services"
-          isService={true}
+          description={sc.description}
+          category={sc.main_category  as "general" | "technical" | "interior" }
         />
-        <ServiceCard
-          title="Deep"
-          title2="Cleaning"
-          main_image="/end-user/6thcard.jpg"
-          icon_image="/end-user/vacuum.png"
-          description="Deep Cleaning, Designed for You—Effortless, Thorough, and Hassle-Free."
-          isService={true}
-        />
-        <ServiceCard
-          title="Furniture"
-          title2="Cleaning"
-          main_image="/end-user/7thcard.jpg"
-          icon_image="/end-user/vacuum.png"
-          description="Transform your home into a haven of cleanliness with our meticulous home cleaning services"
-          isService={true}
-        />
-        <ServiceCard
-          title="Water Tank"
-          title2="Cleaning"
-          main_image="/end-user/8thcard.jpg"
-          icon_image="/end-user/vacuum.png"
-          description="Thorough and professional cleaning to remove contaminants and ensure safe, hygienic water storage"
-          isService={true}
-        />
-        <ServiceCard
-          title="AC"
-          title2="Cleaning"
-          main_image="/end-user/9th.jpg"
-          icon_image="/end-user/vacuum.png"
-          description="Comprehensive cleaning to improve air quality and ensure your AC system runs efficiently"
-          isService={true}
-        />
+            </React.Fragment>
+          
+        )
+       })}
+       
       </div>
-            {/* Technical Services Heading */}
+            {/* Interior Services Heading */}
       <div className="flex text-[24px] sm:text-[36px] gap-x-2">
         <span className="font-[600]">Interior</span>
         <span className="font-[400] italic">DESIGN</span>
@@ -113,22 +90,25 @@ export default function AfterHero() {
 
             {/* Iterior Services Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-        <ServiceCard
-          title="Surface"
-          title2="Finishes"
-          main_image="/end-user/10thCard.jpg"
+{
+  subcategories.filter((sc)=>sc.main_category=="interior").map((sc)=>{
+    return (
+      <React.Fragment key={sc.id}>
+ <SubCategoryCard
+ id={sc.id}
+          title={sc.title}
+          title2={sc.title2}
+          main_image={sc.image_url}
           icon_image="/end-user/vacuum.png"
-          description="Finishes"
-          isInterior={true}
+          description={sc.description}
+          category={sc.main_category  as "general" | "technical" | "interior"}
         />
-        <ServiceCard
-          title="Deep"
-          title2="Fit-Outs"
-          main_image="/end-user/6thcard.jpg"
-          icon_image="/end-user/vacuum.png"
-          description="Fit-Outs"
-          isInterior={true}
-        />
+       </React.Fragment>
+    )
+  })
+}
+
+ 
        
       </div>
     </div>
