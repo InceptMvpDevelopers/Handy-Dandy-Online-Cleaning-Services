@@ -3,7 +3,6 @@
 import React from 'react'
 import Navbar from '@/components/enduser/Navbar'
 import SubCategoryCard from '@/components/enduser/Subcategorycard'
-import ServiceCard from '@/components/enduser/ServiceCard'
 import { useParams } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchSubcategories } from '@/store/subcategories'
@@ -11,7 +10,7 @@ import { useEffect } from 'react'
 import { RootState } from '@/store'
 import { fetchSubCategories2 } from '@/store/subcategories2'
 import { fetchServices } from '@/store/servicesSlice'
-
+import ServiceCard from '@/components/enduser/ServiceCarddd'
 
 export default function Page() {
 
