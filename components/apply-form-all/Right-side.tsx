@@ -7,9 +7,10 @@ import AddOnCardCart from './AddonCardCart';
 
 const BookingDetailsCard = () => {
   
-  const {selectedService, selectedHours, professionalsCount, needMaterials, instructions, selectedFrequency, total, discount, grandTotal, selectedAddOns} = useSelector((state: RootState)=>state.applyForm);
+  const {selectedService, selectedHours, professionalsCount, needMaterials, instructions, selectedFrequency, total, discount, grandTotal, selectedAddOns, selectedDate, selectedTime} = useSelector((state: RootState)=>state.applyForm);
   return (
     <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
+  
       <div className="mb-6">
         <h2 className="text-lg font-semibold mb-4">Booking Details</h2>
         <div className="flex justify-between py-2 border-b border-gray-100">
@@ -36,6 +37,21 @@ const BookingDetailsCard = () => {
           <span className="text-gray-500 font-medium">Material</span>
           <span className="text-gray-700 font-normal">{needMaterials}</span>
         </div>
+            
+            {selectedDate && (  <div className="flex justify-between py-2">
+          <span className="text-gray-500 font-medium">Date</span>
+          <span className="text-gray-700 font-normal">{selectedDate}</span>
+        </div>)}
+            
+           {
+            selectedTime && (
+               <div className="flex justify-between py-2">
+          <span className="text-gray-500 font-medium">Time</span>
+          <span className="text-gray-700 font-normal">{selectedTime}</span>
+        </div>
+             )
+           }
+            
 
 
         {/* Addons Add To Cart */}

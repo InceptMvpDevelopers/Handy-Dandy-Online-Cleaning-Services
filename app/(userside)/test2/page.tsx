@@ -12,6 +12,8 @@ import { subcategory } from "@/store/subcategories";
 import { RootRaws } from "postcss/lib/root";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchSubCategories2 } from "@/store/subcategories2";
+import LoadingSkeleton from "@/components/Loader/Loading";
+import SkeletonCard from "@/components/Loader/Skeleton";
 
 export default function Test2Page() {
   const dispatch = useDispatch();
@@ -20,6 +22,18 @@ export default function Test2Page() {
 const {subcategories} = useSelector((state:RootState)=>state.subcategories)
   return (
     <div className="min-h-screen bg-gray-50 p-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
+      {Array.from({ length: 6 }).map((_, i) => (
+        <SkeletonCard key={i} />
+      ))}
+    </div>
+
+     <div className="flex flex-col gap-4 p-4">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <SkeletonCard key={i} />
+      ))}
+    </div>
+      <LoadingSkeleton />
       <div className="flex gap-4 mb-6">
         <Link href={"/test"}>Go to Test</Link>
         <button

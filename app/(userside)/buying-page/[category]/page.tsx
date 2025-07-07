@@ -13,10 +13,7 @@ import { fetchSubCategories2 } from '@/store/subcategories2'
 import { fetchServices } from '@/store/servicesSlice'
 
 
-
 export default function Page() {
-
-
 
   const dispatch = useDispatch();
   const { subcategories } = useSelector((state: RootState) => state.subcategories);

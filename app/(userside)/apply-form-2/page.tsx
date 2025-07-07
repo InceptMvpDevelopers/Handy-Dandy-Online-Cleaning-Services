@@ -9,17 +9,17 @@ import Navbar
  import { RootState } from "@/store";
 import { fetchAddOns } from "@/store/add_onsSlice";
 import { useEffect } from "react";
-import { Dispatch } from "@reduxjs/toolkit"
 import { resetApplyForm } from "@/store/applyFormSlice";
-;
+
 
 import AddOnCard from "@/components/apply-form-all/AddOnCard";
+import { Staatliches } from "next/font/google";
 
 
 export default function ApplyForm2() {
     const dispatch = useDispatch();
       const {addOns} = useSelector((state:RootState)=>state.addOn);
-    
+    const {selectedDate, selectedTime} = useSelector((state:RootState)=>state.applyForm)
     
      useEffect(() => {
        if(addOns.length == 0){
@@ -30,8 +30,14 @@ export default function ApplyForm2() {
    
       
   const router = useRouter();
+
+const handleContinue = () => {
+router.push('/apply-form-3')
+}
+
   return (
        <div className='flex flex-col'>
+
 <Navbar />
           <div className='flex flex-col lg:flex-row gap-6 p-8'>
               {/* left side */}
@@ -64,7 +70,7 @@ export default function ApplyForm2() {
           
             <div className="flex gap-6 overflow-x-auto pb-2 scrollbar-hide">
               {addOns.map((addon, idx) => (
-                <AddOnCard addOn={addon}/>
+                <AddOnCard key={addon.id} addOn={addon}/>
               ))}
             </div>
           {/* Navigation Buttons */}
@@ -72,7 +78,7 @@ export default function ApplyForm2() {
             <button onClick={()=> {dispatch(resetApplyForm())
                                router.push('/home')}} className="bg-gray-200 text-gray-500 font-medium rounded-full px-8 py-3 w-32">Cancel</button>
             <button onClick={()=> router.back()} className="text-blue-700 underline font-medium px-4 py-2">Back</button>
-            <button onClick={()=> {router.push('/apply-form-3')}} className="bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full px-8 py-3 w-32 transition-colors">Next</button>
+            <button onClick={handleContinue} className="bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full px-8 py-3 w-32 transition-colors">Next</button>
           </div>
                 </div>
           

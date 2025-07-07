@@ -12,6 +12,9 @@ import { resetApplyForm } from "@/store/applyFormSlice";
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
 import { setSelectedDate, setSelectedTime } from '@/store/applyFormSlice';
+import { Toaster, toast } from "sonner";
+import { addOrderApplyForm } from "@/app/supabase-apis/api";
+import { useAuth } from "@/context/Authcontext";
 
 const timeSlots = [
   "11:00 AM",
@@ -29,9 +32,12 @@ export default function ApplyForm3() {
 
 const router = useRouter();
 
+  const {user} = useAuth();
   const dispatch = useDispatch();
+  const {applyForm} = useSelector((state: RootState) =>state);
   const { selectedDate, selectedTime } = useSelector((state: RootState) => state.applyForm);
   const selectedDateObj = selectedDate ? new Date(selectedDate) : new Date();
+  
   // If no date is set, initialize to today
   React.useEffect(() => {
     if (!selectedDate) {
@@ -50,8 +56,29 @@ const router = useRouter();
     });
   };
 
+
+  const handleProceed = async () => {
+if(!selectedDate){
+  toast.error('Please select date')
+  return
+}
+if (!selectedTime){
+  toast.error('Please select time')
+  return
+}
+if (!user?.id) {
+  toast.error("You must be logged in to place an order.");
+  return;
+}
+// router.push('/apply-form-4')
+console.log("started");
+
+await addOrderApplyForm(applyForm, user?.id)
+}
+
   return (
      <div className='flex flex-col'>
+              <Toaster position="top-right" richColors />
       <Navbar />
       <div className="flex flex-col lg:flex-row gap-6 p-8">
         <div className="bg-white flex flex-col flex-[2] rounded-2xl shadow-xl p-6 sm:p-10">
@@ -78,7 +105,12 @@ const router = useRouter();
             {/* Calendar */}
             <div className="bg-[#fafbfc] rounded-2xl p-8 flex-1 shadow border border-gray-100 flex flex-col items-center min-w-[370px] max-w-[420px] mx-auto">
               <Calendar
-                onChange={(date) => dispatch(setSelectedDate((date as Date).toISOString()))}
+                // onChange={(date) => dispatch(setSelectedDate((date as Date).toISOString()))}
+             onChange={(date) => {
+  const localDate = (date as Date).toLocaleDateString("en-CA"); // 'YYYY-MM-DD'
+  dispatch(setSelectedDate(localDate));
+}}
+   
                 value={selectedDateObj}
                 calendarType="iso8601" // week starts on Monday
                 prevLabel={<span className="text-2xl">&#60;</span>}
@@ -120,7 +152,7 @@ const router = useRouter();
             <button onClick={()=> {dispatch(resetApplyForm()) 
               router.push('/home')}} className="bg-gray-200 text-gray-500 font-medium rounded-full px-8 py-3 w-32">Cancel</button>
             <button onClick={()=>router.back()} className="text-blue-700 underline font-medium px-4 py-2">Back</button>
-            <button onClick={()=> router.push('/apply-form-4')} className="bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full px-8 py-3 w-full sm:w-[250px] transition-colors">Proceed to checkout</button>
+            <button onClick={handleProceed} className="bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full px-8 py-3 w-full sm:w-[250px] transition-colors">Proceed to checkout</button>
           </div>
         </div>
                 <div className='flex flex-col  flex-1'>
