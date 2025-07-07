@@ -3,7 +3,7 @@
 import React from 'react'
 import Navbar from '@/components/enduser/Navbar'
 import SubCategoryCard from '@/components/enduser/Subcategorycard'
-import ServiceCard from '@/components/enduser/ServiceCard'
+import ServiceCard from '@/components/enduser/serviceCard'
 import { useParams } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchSubcategories } from '@/store/subcategories'
