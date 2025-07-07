@@ -8,6 +8,10 @@ import Footer from '@/components/enduser/Footer';
 import Navbar
  from '@/components/enduser/Navbar';
 import { useRouter } from "next/navigation";
+import { resetApplyForm } from "@/store/applyFormSlice";
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '@/store';
+import { setSelectedDate, setSelectedTime } from '@/store/applyFormSlice';
 
 const timeSlots = [
   "11:00 AM",
@@ -25,13 +29,20 @@ export default function ApplyForm3() {
 
 const router = useRouter();
 
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
-  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const dispatch = useDispatch();
+  const { selectedDate, selectedTime } = useSelector((state: RootState) => state.applyForm);
+  const selectedDateObj = selectedDate ? new Date(selectedDate) : new Date();
+  // If no date is set, initialize to today
+  React.useEffect(() => {
+    if (!selectedDate) {
+      dispatch(setSelectedDate(new Date().toISOString()));
+    }
+  }, [selectedDate, dispatch]);
 
   // Format selected date for the right panel
-  const formatDate = (date: Date | undefined) => {
+  const formatDate = (date: string | null | undefined) => {
     if (!date) return "";
-    return date.toLocaleDateString("en-US", {
+    return new Date(date).toLocaleDateString("en-US", {
       weekday: "long",
       year: "numeric",
       month: "long",
@@ -67,13 +78,13 @@ const router = useRouter();
             {/* Calendar */}
             <div className="bg-[#fafbfc] rounded-2xl p-8 flex-1 shadow border border-gray-100 flex flex-col items-center min-w-[370px] max-w-[420px] mx-auto">
               <Calendar
-                onChange={(date) => setSelectedDate(date as Date)}
-                value={selectedDate}
+                onChange={(date) => dispatch(setSelectedDate((date as Date).toISOString()))}
+                value={selectedDateObj}
                 calendarType="iso8601" // week starts on Monday
                 prevLabel={<span className="text-2xl">&#60;</span>}
                 nextLabel={<span className="text-2xl">&#62;</span>}
                 tileClassName={({ date, view }) =>
-                  view === 'month' && selectedDate && date.toDateString() === selectedDate.toDateString()
+                  view === 'month' && selectedDate && date.toDateString() === selectedDateObj.toDateString()
                     ? 'bg-blue-600 text-white rounded-full' : 'hover:bg-blue-50 rounded-full'
                 }
                 className="w-full react-calendar-custom [&_.react-calendar__navigation]:justify-between [&_.react-calendar__navigation]:mb-4 [&_.react-calendar__navigation__label]:text-lg [&_.react-calendar__navigation__label]:font-semibold [&_.react-calendar__month-view__weekdays]:text-base [&_.react-calendar__month-view__weekdays]:text-gray-400 [&_.react-calendar__tile]:h-12 [&_.react-calendar__tile]:w-12 [&_.react-calendar__tile]:text-base [&_.react-calendar__tile]:font-medium"
@@ -90,7 +101,7 @@ const router = useRouter();
                 {timeSlots.map((slot) => (
                   <button
                     key={slot}
-                    onClick={() => setSelectedTime(slot)}
+                    onClick={() => dispatch(setSelectedTime(slot))}
                     className={`rounded-xl border w-full py-4 text-center text-base font-medium transition-all duration-150 ${selectedTime === slot ? "border-blue-500 bg-blue-50 text-blue-600 shadow" : "border-gray-200 bg-white text-gray-700 hover:border-blue-300"}`}
                   >
                     {slot}
@@ -106,8 +117,9 @@ const router = useRouter();
           </div>
           {/* Navigation Buttons */}
           <div className="flex flex-col sm:flex-row justify-between items-center mt-6 gap-4">
-            <button className="bg-gray-200 text-gray-500 font-medium rounded-full px-8 py-3 w-32">Cancel</button>
-            <button className="text-blue-700 underline font-medium px-4 py-2">Back</button>
+            <button onClick={()=> {dispatch(resetApplyForm()) 
+              router.push('/home')}} className="bg-gray-200 text-gray-500 font-medium rounded-full px-8 py-3 w-32">Cancel</button>
+            <button onClick={()=>router.back()} className="text-blue-700 underline font-medium px-4 py-2">Back</button>
             <button onClick={()=> router.push('/apply-form-4')} className="bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full px-8 py-3 w-full sm:w-[250px] transition-colors">Proceed to checkout</button>
           </div>
         </div>

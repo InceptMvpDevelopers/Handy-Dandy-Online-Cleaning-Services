@@ -5,37 +5,30 @@ import Footer from '@/components/enduser/Footer';
 import Navbar
  from '@/components/enduser/Navbar';
  import { useRouter } from "next/navigation";
+ import {  useDispatch, useSelector } from "react-redux";
+ import { RootState } from "@/store";
+import { fetchAddOns } from "@/store/add_onsSlice";
+import { useEffect } from "react";
+import { Dispatch } from "@reduxjs/toolkit"
+import { resetApplyForm } from "@/store/applyFormSlice";
+;
 
-const addons = [
-  {
-    title: "Ironing and Folding",
-    price: "AED19",
-    desc: "Crisp, wrinkle-free ironing and folding",
-    img: "/end-user/1stcard.jpg",
-  },
-  {
-    title: "Balcony Cleaning",
-    price: "AED19",
-    desc: "Refresh Your Outdoor Space!",
-    img: "/end-user/2ndCard.jpg",
-  },
-  {
-    title: "Fridge Cleaning",
-    price: "AED19",
-    desc: "Fresh, odor-free fridge cleaning",
-    img: "/end-user/3rdCard.jpg",
-  },
-  {
-    title: "Wardrobe Organising",
-    price: "AED19",
-    desc: "Crisp, wrinkle-free ironing ar folding",
-    img: "/end-user/4thCard.jpg",
-  },
-];
-
+import AddOnCard from "@/components/apply-form-all/AddOnCard";
 
 
 export default function ApplyForm2() {
+    const dispatch = useDispatch();
+      const {addOns} = useSelector((state:RootState)=>state.addOn);
+    
+    
+     useEffect(() => {
+       if(addOns.length == 0){
+     dispatch<any>(fetchAddOns());
+   }
+   }, [dispatch, addOns])
+   
+   
+      
   const router = useRouter();
   return (
        <div className='flex flex-col'>
@@ -70,31 +63,15 @@ export default function ApplyForm2() {
             {/* Carousel Arrows */}
           
             <div className="flex gap-6 overflow-x-auto pb-2 scrollbar-hide">
-              {addons.map((addon, idx) => (
-                <div
-                  key={addon.title}
-                  className="min-w-[250px] max-w-[260px] bg-white rounded-2xl border border-gray-100 shadow p-4 flex flex-col"
-                >
-                  <img
-                    src={addon.img}
-                    alt={addon.title}
-                    className="w-full h-32 object-cover rounded-xl mb-3"
-                  />
-                  <div className="font-semibold text-base leading-tight mb-1">{addon.title}</div>
-                  <div className="text-xs text-gray-400 font-medium mb-1">{addon.price}</div>
-                  <div className="text-sm text-gray-600 mb-2 min-h-[36px]">{addon.desc}</div>
-                  <a href="#" className="text-blue-700 text-sm font-semibold mb-3 hover:underline">Learn More</a>
-                  <button className="flex items-center justify-between border border-blue-200 rounded-full px-4 py-2 text-sm font-medium text-gray-700 hover:border-blue-400 transition">
-                    Add
-                    <span className="ml-2 w-5 h-5 flex items-center justify-center rounded-full bg-blue-50 text-blue-600 text-lg font-bold">+</span>
-                  </button>
-                </div>
+              {addOns.map((addon, idx) => (
+                <AddOnCard addOn={addon}/>
               ))}
             </div>
           {/* Navigation Buttons */}
           <div className="flex justify-between items-center mt-10 gap-4">
-            <button className="bg-gray-200 text-gray-500 font-medium rounded-full px-8 py-3 w-32">Cancel</button>
-            <button className="text-blue-700 underline font-medium px-4 py-2">Back</button>
+            <button onClick={()=> {dispatch(resetApplyForm())
+                               router.push('/home')}} className="bg-gray-200 text-gray-500 font-medium rounded-full px-8 py-3 w-32">Cancel</button>
+            <button onClick={()=> router.back()} className="text-blue-700 underline font-medium px-4 py-2">Back</button>
             <button onClick={()=> {router.push('/apply-form-3')}} className="bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full px-8 py-3 w-32 transition-colors">Next</button>
           </div>
                 </div>

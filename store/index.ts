@@ -5,6 +5,8 @@ import subcategoryReducer from  './subcategories'
 import  SubCategory2Reducer  from './subcategories2';
 import selectedSubCategoryReducer from './selectedSubCategorySlice'
 import servicesSliceReducer from './servicesSlice'
+import applyFormReducer from './applyFormSlice';
+import addOnsReducer from './add_onsSlice'
 
 export const store = configureStore({
   reducer: {
@@ -13,7 +15,9 @@ export const store = configureStore({
     subcategories: subcategoryReducer,
     subcategories2: SubCategory2Reducer,
     selectedSubCategory: selectedSubCategoryReducer,
-    services: servicesSliceReducer
+    services: servicesSliceReducer,
+    applyForm: applyFormReducer,
+    addOn: addOnsReducer
   },
 });
 

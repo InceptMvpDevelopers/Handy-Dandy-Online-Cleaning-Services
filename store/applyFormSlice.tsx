@@ -1,0 +1,149 @@
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { addOn, services_3 } from "@/app/types/types";
+
+
+function calculateTotals(state: ApplyFormState) {
+    const { selectedService, selectedHours, professionalsCount, selectedFrequency, selectedAddOns } = state;
+
+    if (selectedService && selectedHours && professionalsCount && selectedFrequency) {
+        const baseTotal = selectedService.price * selectedHours * professionalsCount;
+
+        const addOnsTotal = selectedAddOns.reduce((sum, item) => sum + item.addon.price * item.quantity, 0)
+
+        const combinedTotal = baseTotal + addOnsTotal;
+        const discountPercentage = discounts[selectedFrequency] || 0;
+        const discountAmount = (combinedTotal * discountPercentage) / 100;
+        const grandTotal = combinedTotal - discountAmount;
+
+        state.total = combinedTotal;
+        state.discount = discountAmount;
+        state.grandTotal = grandTotal;
+    } else {
+        state.total = 0;
+        state.discount = 0;
+        state.grandTotal = 0;
+    }
+}
+
+
+
+export const discounts = {
+    express: 0,
+    weekly: 10,
+    multi: 15
+
+}
+
+export type ApplyFormState = {
+    selectedService: services_3 | null,
+    selectedHours: number | null,
+    professionalsCount: number | null,
+    needMaterials: 'yes' | 'no' | null,
+    instructions: string,
+    selectedFrequency: 'express' | 'weekly' | 'multi' | null,
+    total: number | null,
+    discount: number,
+    grandTotal: number,
+    selectedAddOns: {
+        addon: addOn,
+        quantity: number
+    }[],
+    selectedDate: string | null,
+    selectedTime: string | null,
+};
+
+const initialState: ApplyFormState = {
+    selectedService: null,
+    selectedHours: 1,
+    professionalsCount: 1,
+    needMaterials: 'no',
+    instructions: '',
+    selectedFrequency: 'express',
+    total: 0,
+    discount: 0,
+    grandTotal: 0,
+    selectedAddOns: [],
+    selectedDate: null,
+    selectedTime: null,
+};
+
+const applyFormSlice = createSlice({
+    name: "applyForm",
+    initialState,
+    reducers: {
+        setSelectedService(state, action: PayloadAction<services_3>) {
+            state.selectedService = action.payload;
+            calculateTotals(state);
+        },
+        setSelectedHours(state, action: PayloadAction<number | null>) {
+            state.selectedHours = action.payload;
+            calculateTotals(state);
+        },
+        setProfessionalsCount(state, action: PayloadAction<number | null>) {
+            state.professionalsCount = action.payload;
+            calculateTotals(state);
+        },
+        setNeedMaterials(state, action: PayloadAction<'yes' | 'no' | null>) {
+            state.needMaterials = action.payload;
+        },
+        setInstructions(state, action: PayloadAction<string>) {
+            state.instructions = action.payload;
+        },
+        setSelectedFrequency(state, action: PayloadAction<'express' | 'weekly' | 'multi' | null>) {
+            state.selectedFrequency = action.payload;
+            calculateTotals(state);
+
+        },
+        resetApplyForm(state) {
+            Object.assign(state, initialState);
+        },
+        addAddOn(state, action: PayloadAction<addOn>) {
+            const existing = state.selectedAddOns.find((a) => a.addon.id == action.payload.id)
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                state.selectedAddOns.push({ addon: action.payload, quantity: 1 })
+            }
+            calculateTotals(state);
+        },
+        removeAddOn(state,action: PayloadAction<addOn>) {
+state.selectedAddOns = state.selectedAddOns.filter(item=>item.addon.id !== action.payload.id);
+calculateTotals(state);
+        },
+        decreaseAddonQuantity(state,action: PayloadAction<addOn>){
+            const existing = state.selectedAddOns.find((s)=> s.addon.id ==action.payload.id);
+            if (existing && existing.quantity > 1)
+            {
+                existing.quantity -=1;
+            }
+            if (existing && existing.quantity==1)
+            {
+                state.selectedAddOns = state.selectedAddOns.filter(item=>item.addon.id !== action.payload.id);
+            }
+            calculateTotals(state);
+        },
+        setSelectedDate(state, action: PayloadAction<string | null>) {
+            state.selectedDate = action.payload;
+        },
+        setSelectedTime(state, action: PayloadAction<string | null>) {
+            state.selectedTime = action.payload;
+        },
+    }
+});
+
+export const {
+    setSelectedService,
+    setSelectedHours,
+    setProfessionalsCount,
+    setNeedMaterials,
+    setInstructions,
+    setSelectedFrequency,
+    resetApplyForm,
+    addAddOn,
+    removeAddOn,
+    decreaseAddonQuantity,
+    setSelectedDate,
+    setSelectedTime
+} = applyFormSlice.actions;
+
+export default applyFormSlice.reducer;

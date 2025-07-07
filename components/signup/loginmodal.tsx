@@ -40,6 +40,7 @@ export default function LoginModal({
       await login(data.email, data.password);
       toast.success("Login successful!");
       onClose();
+      form.reset();
     } catch (err: any) {
       toast.error(err?.message || "Login failed");
     }

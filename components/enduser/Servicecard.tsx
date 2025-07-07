@@ -4,6 +4,8 @@ import Image from "next/image";
 import { services_3 } from "@/app/types/types";
 import { useRouter } from "next/navigation";
 import {toast, Toaster} from "sonner";
+import { useDispatch } from 'react-redux';
+import { setSelectedService } from '@/store/applyFormSlice';
 
 type Parameters = {
 service: services_3
@@ -14,15 +16,17 @@ service
 }: Parameters) {
   // ✅ determine colors based on `isService`
 
-const router = useRouter();
+  const router = useRouter();
+  const dispatch = useDispatch();
 
-const handleClick = () => {
-  if(service.order_type=='apply-form')
-router.push('/apply-form-1')
-  else{
-toast.error('Functionality Not Implemented Yet!');
+  const handleClick = () => {
+    if(service.order_type=='apply-form') {
+      dispatch(setSelectedService(service));
+      router.push('/apply-form-1');
+    } else {
+      toast.error('Functionality Not Implemented Yet!');
+    }
   }
-}
 
   return (
     <div className="bg-white rounded-2xl shadow-[0px_4px_40px_0px_rgba(0,0,0,0.1)] p-4 min-w-[280px] w-full max-w-[280px]  flex flex-col justify-between">

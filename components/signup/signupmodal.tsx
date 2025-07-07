@@ -220,7 +220,7 @@ sendOTP({email});
                         <Input
                           placeholder="Write your first name"
                           {...field}
-                          className={` focus-visible:ring-0 rounded-full px-6 py-4 text-lg bg-[#fafbfc] border ${fieldState.error ? 'border-red-500' : 'border-gray-200'}`}
+                          className={`  rounded-full px-6 py-4 text-lg bg-[#fafbfc] border ${fieldState.error ? 'border-red-500' : 'border-gray-200'}`}
                         />
                       </FormControl>
                       <FormMessage />
@@ -373,6 +373,7 @@ sendOTP({email});
                   await signup({ email, password, firstName, lastName, phone });
                   toast.success("Signup successful!");
                   setStep(2);
+                  formm.reset();
                 } catch (err) {
                   toast.error("Signup failed. Please try again.");
                 }

@@ -1,24 +1,45 @@
 "use client"
 import BookingDetailsCard from '@/components/apply-form-all/Right-side';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Footer from '@/components/enduser/Footer';
 import Navbar
  from '@/components/enduser/Navbar';
 import { useRouter } from 'next/navigation';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '@/store';
+import {
+  setSelectedHours,
+  setProfessionalsCount,
+  setNeedMaterials,
+  setInstructions,
+  setSelectedFrequency,
+  resetApplyForm
+} from '@/store/applyFormSlice';
+
 
 
 const hours = [1, 2, 3, 4, 5, 6, 7];
 const professionals = [1, 2, 3, 4];
 
 export default function ApplyForm() {
-  const [selectedHour, setSelectedHour] = useState<number | null>(null);
-  const [selectedPro, setSelectedPro] = useState<number | null>(null);
-  const [needMaterials, setNeedMaterials] = useState<'yes' | 'no' | null>(null);
-  const [instructions, setInstructions] = useState('');
-  const [selectedFrequency, setSelectedFrequency] = useState<'express' | 'weekly' | 'multi' | null>(null);
+  const dispatch = useDispatch();
+  const {
+    selectedService,
+    selectedHours,
+    professionalsCount,
+    needMaterials,
+    instructions,
+    selectedFrequency
+  } = useSelector((state: RootState) => state.applyForm);
 
   const router = useRouter();
 
+
+  useEffect(()=> {
+if (!selectedService){
+  router.back();
+}
+  },[])
   return (
     <div className='flex flex-col'>
       <Navbar />
@@ -48,8 +69,8 @@ export default function ApplyForm() {
                     <button
                       key={h}
                       type="button"
-                      onClick={() => setSelectedHour(h)}
-                      className={`w-12 h-12 rounded-xl border text-lg font-medium transition-all duration-150 ${selectedHour === h ? 'bg-blue-50 border-blue-500 text-blue-600 shadow' : 'bg-white border-gray-200 text-gray-700 hover:border-blue-300'}`}
+                      onClick={() => dispatch(setSelectedHours(h))}
+                      className={`w-12 h-12 rounded-xl border text-lg font-medium transition-all duration-150 ${selectedHours === h ? 'bg-blue-50 border-blue-500 text-blue-600 shadow' : 'bg-white border-gray-200 text-gray-700 hover:border-blue-300'}`}
                     >
                       {h}
                     </button>
@@ -64,8 +85,8 @@ export default function ApplyForm() {
                     <button
                       key={p}
                       type="button"
-                      onClick={() => setSelectedPro(p)}
-                      className={`w-12 h-12 rounded-xl border text-lg font-medium transition-all duration-150 ${selectedPro === p ? 'bg-blue-50 border-blue-500 text-blue-600 shadow' : 'bg-white border-gray-200 text-gray-700 hover:border-blue-300'}`}
+                      onClick={() => dispatch(setProfessionalsCount(p))}
+                      className={`w-12 h-12 rounded-xl border text-lg font-medium transition-all duration-150 ${professionalsCount === p ? 'bg-blue-50 border-blue-500 text-blue-600 shadow' : 'bg-white border-gray-200 text-gray-700 hover:border-blue-300'}`}
                     >
                       {p}
                     </button>
@@ -78,14 +99,14 @@ export default function ApplyForm() {
                 <div className="flex gap-3 flex-wrap">
                   <button
                     type="button"
-                    onClick={() => setNeedMaterials('no')}
+                    onClick={() => dispatch(setNeedMaterials('no'))}
                     className={`px-4 py-2 rounded-xl border font-medium transition-all duration-150 ${needMaterials === 'no' ? 'bg-blue-50 border-blue-500 text-blue-600 shadow' : 'bg-white border-gray-200 text-gray-700 hover:border-blue-300'}`}
                   >
                     No, I have them
                   </button>
                   <button
                     type="button"
-                    onClick={() => setNeedMaterials('yes')}
+                    onClick={() => dispatch(setNeedMaterials('yes'))}
                     className={`px-4 py-2 rounded-xl border font-medium transition-all duration-150 ${needMaterials === 'yes' ? 'bg-blue-50 border-blue-500 text-blue-600 shadow' : 'bg-white border-gray-200 text-gray-700 hover:border-blue-300'}`}
                   >
                     Yes, please
@@ -99,7 +120,7 @@ export default function ApplyForm() {
                   className="w-full min-h-[60px] rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-base text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-200 resize-none"
                   placeholder="Key under the mat, ironing, window cleaning, etc"
                   value={instructions}
-                  onChange={e => setInstructions(e.target.value)}
+                  onChange={e => dispatch(setInstructions(e.target.value))}
                 />
               </div>
               {/* Q5 - Frequency */}
@@ -109,7 +130,7 @@ export default function ApplyForm() {
                   {/* Express Booking */}
                   <button
                     type="button"
-                    onClick={() => setSelectedFrequency('express')}
+                    onClick={() => dispatch(setSelectedFrequency('express'))}
                     className={`w-full text-left rounded-2xl border transition-all duration-150 px-5 py-4 ${selectedFrequency === 'express' ? 'border-blue-500 bg-blue-50 shadow' : 'border-blue-200 bg-white hover:border-blue-400'}`}
                   >
                     <div className="font-bold text-lg mb-1">Express Booking</div>
@@ -120,7 +141,7 @@ export default function ApplyForm() {
                   {/* Weekly */}
                   <button
                     type="button"
-                    onClick={() => setSelectedFrequency('weekly')}
+                    onClick={() => dispatch(setSelectedFrequency('weekly'))}
                     className={`w-full text-left rounded-2xl border transition-all duration-150 px-5 py-4 relative ${selectedFrequency === 'weekly' ? 'border-blue-500 bg-blue-50 shadow' : 'border-blue-200 bg-white hover:border-blue-400'}`}
                   >
                     <div className="flex items-center justify-between">
@@ -136,7 +157,7 @@ export default function ApplyForm() {
                   {/* Multiple Times a Week */}
                   <button
                     type="button"
-                    onClick={() => setSelectedFrequency('multi')}
+                    onClick={() => dispatch(setSelectedFrequency('multi'))}
                     className={`w-full text-left rounded-2xl border transition-all duration-150 px-5 py-4 relative ${selectedFrequency === 'multi' ? 'border-blue-500 bg-blue-50 shadow' : 'border-blue-200 bg-white hover:border-blue-400'}`}
                   >
                     <div className="flex items-center justify-between">
@@ -153,7 +174,8 @@ export default function ApplyForm() {
               </div>
               {/* Buttons */}
               <div className="flex justify-between items-center mt-8 gap-4">
-                <button className="bg-gray-200 text-gray-500 font-medium rounded-full px-8 py-3 w-32">Cancel</button>
+                <button onClick={()=> {dispatch(resetApplyForm())
+                   router.back()}} className="bg-gray-200 text-gray-500 font-medium rounded-full px-8 py-3 w-32">Cancel</button>
                 <button 
                 onClick={()=> {router.push('/apply-form-2')}}
                 className="bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full px-8 py-3 w-32 transition-colors">Next</button>
