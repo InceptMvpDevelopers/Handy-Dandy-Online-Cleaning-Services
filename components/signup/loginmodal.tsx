@@ -21,9 +21,11 @@ type LoginData = z.infer<typeof loginSchema>;
 export default function LoginModal({
   open,
   onClose,
+  showSignup
 }: {
   open: boolean;
   onClose: () => void;
+  showSignup: ()=> void;
 }) {
   const form = useForm<LoginData>({
     resolver: zodResolver(loginSchema),
@@ -63,11 +65,11 @@ export default function LoginModal({
       </button>
       <div className="flex flex-col gap-6 w-full max-w-xl mx-auto">
         <div className="flex items-center justify-between mb-2">
-          <div>
+          <div >
             <span className="text-3xl font-bold">LOGIN</span>
-                          <div className="text-sm italic text-gray-500 mt-1">
+                          <div onClick={showSignup} className="text-sm italic text-gray-500 mt-1">
                   DON'T HAVE AN ACCOUNT? {' '}
-                  <span className="text-blue-600 font-semibold cursor-pointer">Signup</span>
+                  <span  className="text-blue-600 font-semibold cursor-pointer">Signup</span>
           </div>
               </div>
         </div>

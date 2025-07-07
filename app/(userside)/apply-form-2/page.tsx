@@ -17,9 +17,14 @@ import { Staatliches } from "next/font/google";
 
 
 export default function ApplyForm2() {
+
+
+
+
+  
     const dispatch = useDispatch();
       const {addOns} = useSelector((state:RootState)=>state.addOn);
-    const {selectedDate, selectedTime} = useSelector((state:RootState)=>state.applyForm)
+    const {selectedDate, selectedService, selectedTime} = useSelector((state:RootState)=>state.applyForm)
     
      useEffect(() => {
        if(addOns.length == 0){
@@ -28,7 +33,11 @@ export default function ApplyForm2() {
    }, [dispatch, addOns])
    
    
-      
+        useEffect(()=> {
+if (!selectedService){
+  router.push('/home');
+}
+  },[])
   const router = useRouter();
 
 const handleContinue = () => {
@@ -58,15 +67,15 @@ router.push('/apply-form-3')
             <div className="flex-1 h-1 bg-blue-100 rounded-full" />
           </div>
           {/* People also added */}
-          <div className="flex justify-between items-center">
-              <div className="mb-4 text-lg font-medium">People also added</div>
-                <div className=" right-2 top-1/2  -translate-y-1/2 flex gap-2 z-10">
+          <div className="flex justify-between items-center mb-2">
+              <div className="text-lg font-medium">People also added</div>
+                <div className="flex gap-2 ">
                   <button className="w-9 h-9 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow hover:bg-blue-50 transition"><span className="text-2xl">&#8592;</span></button>
                   <button className="w-9 h-9 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow hover:bg-blue-50 transition"><span className="text-2xl">&#8594;</span></button>
                 </div>
           </div>
           {/* Add-ons Cards */}
-            {/* Carousel Arrows */}
+          
           
             <div className="flex gap-6 overflow-x-auto pb-2 scrollbar-hide">
               {addOns.map((addon, idx) => (

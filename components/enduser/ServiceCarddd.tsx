@@ -29,8 +29,8 @@ service
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-[0px_4px_40px_0px_rgba(0,0,0,0.1)] p-4 min-w-[280px] w-full max-w-[280px]  flex flex-col justify-between">
-      <Toaster position="top-right" richColors/>
+      <div className="bg-white rounded-2xl shadow-[0px_4px_40px_0px_rgba(0,0,0,0.1)] p-4 min-w-[280px] w-full sm:max-w-[280px]  flex flex-col justify-between">
+        <Toaster position="top-right" richColors/>
       <div className="flex flex-col gap-2">
         <div className="relative w-full h-[206px] rounded-xl overflow-hidden mb-4">
           <Image

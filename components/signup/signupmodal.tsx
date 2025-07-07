@@ -44,9 +44,11 @@ const steps = [
 export default function SignupModal({
   open,
   onClose,
+  showLogin
 }: {
   open: boolean;
   onClose: () => void;
+  showLogin: ()=> void;
 }) {
 
 const formm = useForm<FormData>({
@@ -199,7 +201,7 @@ sendOTP({email});
           <div className="flex items-center justify-between mb-2">
             <div>
               <span className="text-3xl font-bold">SIGN UP</span>
-              <div className="text-sm italic text-gray-500 mt-1">
+              <div onClick={showLogin} className="text-sm italic text-gray-500 mt-1">
                 ALREADY HAVE AN ACCOUNT? {' '}
                 <span className="text-blue-600 font-semibold cursor-pointer">Signin</span>
               </div>

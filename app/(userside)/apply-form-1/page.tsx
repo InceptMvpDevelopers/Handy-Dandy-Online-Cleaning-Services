@@ -37,7 +37,7 @@ export default function ApplyForm() {
 
   useEffect(()=> {
 if (!selectedService){
-  router.back();
+  router.push('/home');
 }
   },[])
   return (
@@ -144,9 +144,9 @@ if (!selectedService){
                     onClick={() => dispatch(setSelectedFrequency('weekly'))}
                     className={`w-full text-left rounded-2xl border transition-all duration-150 px-5 py-4 relative ${selectedFrequency === 'weekly' ? 'border-blue-500 bg-blue-50 shadow' : 'border-blue-200 bg-white hover:border-blue-400'}`}
                   >
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-lg mb-1">Weekly</span>
-                      <span className="bg-orange-50 text-orange-500 text-xs font-semibold rounded-full px-3 py-1 absolute right-5 top-5">- 10% Per Visit</span>
+                    <div className="flex flex-wrap items-center justify-between">
+                      <p className="font-bold text-lg mb-1">Weekly</p>
+                      <p className="bg-orange-50 w-fit text-orange-500 text-xs font-semibold rounded-full px-3 py-1 right-5 top-5">- 10% Per Visit</p>
                     </div>
                     <ul className="list-disc ml-5 text-gray-700 text-sm mt-1">
                       <li>Same cleaner every time—book weekly visits and reschedule easily.</li>
@@ -160,9 +160,9 @@ if (!selectedService){
                     onClick={() => dispatch(setSelectedFrequency('multi'))}
                     className={`w-full text-left rounded-2xl border transition-all duration-150 px-5 py-4 relative ${selectedFrequency === 'multi' ? 'border-blue-500 bg-blue-50 shadow' : 'border-blue-200 bg-white hover:border-blue-400'}`}
                   >
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-wrap items-center justify-between">
                       <span className="font-bold text-lg mb-1">Multiple Times a Week</span>
-                      <span className="bg-orange-50 text-orange-500 text-xs font-semibold rounded-full px-3 py-1 absolute right-5 top-5">15% Per Visit</span>
+                      <span className="bg-orange-50 text-orange-500 text-xs font-semibold rounded-full px-3 py-1 right-5 top-5">15% Per Visit</span>
                     </div>
                     <ul className="list-disc ml-5 text-gray-700 text-sm mt-1">
                       <li>Same cleaner every time—book multiple weekly visits and reschedule easily.</li>

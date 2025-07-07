@@ -4,6 +4,7 @@ import { IoIosArrowDown } from 'react-icons/io'
 import { ImLocation } from 'react-icons/im'
 import { MdMyLocation } from 'react-icons/md'
 import { RxHamburgerMenu } from 'react-icons/rx'
+import { GoChecklist } from "react-icons/go";
 import { GoSearch } from "react-icons/go";
 import { useAuth } from '@/context/Authcontext'
 import { useState } from 'react'
@@ -106,6 +107,12 @@ export default function Navbar() {
               <User className="w-4 h-4 mr-2" />
               Profile
             </DropdownMenuItem>
+              <DropdownMenuItem
+              onClick={() => router.push("/my-bookings")}
+            >
+              <GoChecklist className="w-4 h-4 mr-2" />
+              Bookings
+            </DropdownMenuItem>
 
             <DropdownMenuItem onClick={()=> {logout()}} className="text-red-600">
               <LogOut className="w-4 h-4 mr-2" />
@@ -119,12 +126,20 @@ export default function Navbar() {
 
       <SignupModal 
       open={signupModal}
-      onClose={()=>{setSignupModal(false)}}
+      onClose={()=>{setSignupModal(false)
+      }}
+      showLogin={()=> {
+        setSignupModal(false)
+        setLoginModal(true)
+      }}
       />
 
       <LoginModal 
       open={loginModal}
-      onClose={()=> {setLoginModal(false)}}/>
+      onClose={()=> {setLoginModal(false)}}
+      showSignup={()=>{
+        setLoginModal(false)
+      setSignupModal(true)}}/>
     </div>
   )
 }

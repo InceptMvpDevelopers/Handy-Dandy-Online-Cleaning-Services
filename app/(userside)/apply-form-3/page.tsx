@@ -15,6 +15,8 @@ import { setSelectedDate, setSelectedTime } from '@/store/applyFormSlice';
 import { Toaster, toast } from "sonner";
 import { addOrderApplyForm } from "@/app/supabase-apis/api";
 import { useAuth } from "@/context/Authcontext";
+import LoginModal from "@/components/signup/loginmodal";
+import SignupModal from "@/components/signup/signupmodal";
 
 const timeSlots = [
   "11:00 AM",
@@ -32,14 +34,24 @@ export default function ApplyForm3() {
 
 const router = useRouter();
 
+const [loginModal, setLoginModal] = useState(false);
+  const [signupModal, setSignupModal] = useState(false);
+
   const {user} = useAuth();
   const dispatch = useDispatch();
   const {applyForm} = useSelector((state: RootState) =>state);
-  const { selectedDate, selectedTime } = useSelector((state: RootState) => state.applyForm);
+  const { selectedDate, selectedService, selectedTime } = useSelector((state: RootState) => state.applyForm);
   const selectedDateObj = selectedDate ? new Date(selectedDate) : new Date();
   
   // If no date is set, initialize to today
   React.useEffect(() => {
+
+
+if (!selectedService){
+  router.push('/home');
+}
+
+
     if (!selectedDate) {
       dispatch(setSelectedDate(new Date().toISOString()));
     }
@@ -58,6 +70,8 @@ const router = useRouter();
 
 
   const handleProceed = async () => {
+
+
 if(!selectedDate){
   toast.error('Please select date')
   return
@@ -67,6 +81,7 @@ if (!selectedTime){
   return
 }
 if (!user?.id) {
+  setLoginModal(true);
   toast.error("You must be logged in to place an order.");
   return;
 }
@@ -78,7 +93,26 @@ await addOrderApplyForm(applyForm, user?.id)
 
   return (
      <div className='flex flex-col'>
+      {/* Other COmponents */}
               <Toaster position="top-right" richColors />
+      
+            <SignupModal 
+            open={signupModal}
+            onClose={()=>{setSignupModal(false)}}
+            showLogin={()=> {setSignupModal(false)
+              setLoginModal(true)
+            }}
+            />
+      
+            <LoginModal 
+            open={loginModal}
+            onClose={()=> {setLoginModal(false)}}
+              showSignup={()=>{
+        setLoginModal(false)
+      setSignupModal(true)}}
+            />
+
+
       <Navbar />
       <div className="flex flex-col lg:flex-row gap-6 p-8">
         <div className="bg-white flex flex-col flex-[2] rounded-2xl shadow-xl p-6 sm:p-10">
@@ -143,9 +177,9 @@ await addOrderApplyForm(applyForm, user?.id)
             </div>
           </div>
           {/* Help Bar */}
-          <div className="flex items-center gap-2 bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 mb-8 text-sm text-blue-900">
+          <div className="flex flex-wrap items-center gap-2 bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 mb-8 text-sm text-blue-900">
             <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="#2563eb" strokeWidth="2"/><path d="M12 8v4" stroke="#2563eb" strokeWidth="2" strokeLinecap="round"/><circle cx="12" cy="16" r="1" fill="#2563eb"/></svg>
-            Need Help? Contact us at <span className="font-semibold ml-1">+971 50 163 1641</span> or email <span className="font-semibold ml-1">hello@handydandy.ae</span>.
+            <p>Need Help? Contact us at</p> <p className="font-semibold ml-1">+971 50 163 1641</p> or email <p className="font-semibold ml-1">hello@handydandy.ae</p>.
           </div>
           {/* Navigation Buttons */}
           <div className="flex flex-col sm:flex-row justify-between items-center mt-6 gap-4">
